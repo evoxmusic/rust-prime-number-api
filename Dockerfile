@@ -43,4 +43,6 @@ COPY --from=builder /app/target/x86_64-unknown-linux-musl/release/rust-prime-num
 # Use an unprivileged user.
 USER app:app
 
+EXPOSE 8000
+
 CMD ["/app/rust-prime-number-api"]

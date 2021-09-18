@@ -4,6 +4,7 @@ extern crate rocket;
 use rocket::serde::json::Json;
 use serde::Serialize;
 use std::time::SystemTime;
+use std::net::{IpAddr, Ipv4Addr};
 
 #[derive(Serialize)]
 struct NumberResponse {
@@ -44,7 +45,11 @@ fn is_prime(n: u64) -> bool {
 
 #[rocket::main]
 async fn main() {
+    let mut config = rocket::config::Config::default();
+    config.address = IpAddr::V4(Ipv4Addr::new(0, 0, 0, 0));
+
     let _ = rocket::build()
+        .configure(config)
         .mount("/", routes![index, get_is_prime])
         .launch()
         .await;
